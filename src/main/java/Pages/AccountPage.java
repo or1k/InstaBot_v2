@@ -3,6 +3,7 @@ package Pages;
 import Model.Setter;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
 
 import java.util.Random;
@@ -20,6 +21,7 @@ public class AccountPage {
     private SelenideElement FirstPicture = $(By.xpath("//div[@class='_9AhH0']"));
     private SelenideElement ButtonAddFollower = $(By.xpath("//button[text()= 'Подписаться']"));
     private SelenideElement FirstComment = $(By.xpath("//ul[@class='XQXOT']//li[1]"));
+    private int finishCount = 1000;
 
     private final String[] phraseOne = new String[]{
             "Какое замечательное фото, ",
@@ -84,6 +86,9 @@ public class AccountPage {
 //        }
 //        return this;
 //    }
+
+
+
 
 
 
@@ -173,11 +178,12 @@ public class AccountPage {
         if(!$(By.xpath("//button/span[@class='glyphsSpriteHeart__filled__24__red_5 u-__7']")).isDisplayed()) {
             try{
                 $(By.xpath("//button/span[@class='glyphsSpriteHeart__outline__24__grey_9 u-__7']")).shouldBe(Condition.visible).click();
+                System.out.println("Like поставили.");
             }catch (Exception ex){
                 ex.getStackTrace();
             }
         }else {
-            System.out.println("Like уже есть");
+            System.out.println("Like уже есть.");
         }
         if ($(By.xpath("//ul[@class='XQXOT']//a[contains (@title, 'kriorika77')]")).isDisplayed()) {
             System.out.println("Коммент уже есть.");
@@ -186,7 +192,7 @@ public class AccountPage {
             CommentArea.click();
             CommentArea.val(getRandom(phraseOne) + getRandom(phraseTwo)).pressEnter();
             sleep(500);
-            System.out.println("коммент оставил");
+            System.out.println("коммент оставил.");
         }
         return this;
     }
@@ -195,9 +201,15 @@ public class AccountPage {
         Setter setter = new Setter();
         setter.setKeyWords();
         for(int i=0;i<setter.keyWords.length; i++){
-            if(FirstComment.getText().contains(setter.keyWords[i])){
-                System.out.println("Аккаунт похож на магазин. Скипаем.");
-                return true;
+            if(FirstComment.isDisplayed()) {
+                if (FirstComment.getText().contains(setter.keyWords[i])) {
+                    System.out.println("Аккаунт похож на магазин. Скипаем.");
+                    System.out.println("Есть совпадение по слову " + setter.keyWords[i]);
+                    return true;
+                }
+            }else{
+                System.out.println("Аккаунт чистый. кек");
+                return false;
             }
         }
         System.out.println("Аккаунт чистый. кек");
@@ -207,7 +219,6 @@ public class AccountPage {
     public AccountPage moreFollowersFromGeo() throws InterruptedException {
 
         int countAddFollowers = 0;
-        System.out.println(countAddFollowers);
         /**
          * Заходим в первую фотку
          */
@@ -218,34 +229,31 @@ public class AccountPage {
                 /**
                  * Првоверяем подписаны мы на человека или нет
                  */
+                System.out.println("--------------------------Проверка пользователя номер "+ i +"--------------------------");
+                sleep(500);
+                System.out.println("ССылка на пользователя " + WebDriverRunner.getWebDriver().getCurrentUrl());
                 String LocatorButtonText = $(By.xpath("//header//button")).getText();
                 if (LocatorButtonText.equals(followingButtonText) || LocatorButtonText.equals(requestedButtonText)) {
                     $(By.xpath("//a[text()='Далее']")).click();
+                    System.out.println("Подписка есть.");
                     continue;
                 }
-                System.out.println("Проверка подписаны мы на человека пройдена \n--------------------------");
+                sleep(randomNum);
+
 
 
                 /**
                  * Проверка на Магазин
                  */
-
+                System.out.println("Проверка на магазин:");
                 if(checkKeyWordsIntText()){
-                    System.out.println("LOX");
                     $(By.xpath("//a[text()='Далее']")).click();
                     continue;
                 }
-                System.out.println("Проверка на магаз пройдена \n--------------------------");
 
 
-                /**
-                 * Проверяем на скольких мы подписались.
-                 * Если 1000 - выключаем бота.
-                 */
-                if (countAddFollowers == 1000) {
-                    break;
-                }
-                System.out.println("Проверка на кол-во подписок пройдена \n--------------------------");
+
+
 
 
                 /**
@@ -254,11 +262,20 @@ public class AccountPage {
                 clickLikeAndADDComentFromGEO();
                 ButtonAddFollower.click();
                 countAddFollowers++;
-                System.out.println("Подписались на " + countAddFollowers + " аккаунтов\n--------------------------");
                 $(By.xpath("//a[text()='Далее']")).click();
-                sleep(randomNum);
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
+            }
+
+            /**
+             * Проверяем на скольких мы подписались.
+             * Если 1000 - выключаем бота.
+             */
+            System.out.print("Подписалить на " + countAddFollowers + "шт. Осталось подписаться на ");
+            System.out.println(finishCount - countAddFollowers);
+            if (countAddFollowers == finishCount) {
+                System.out.println("Лимит подписок исчерпан.");
+                break;
             }
 
         }

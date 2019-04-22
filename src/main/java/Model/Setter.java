@@ -26,6 +26,9 @@ public class Setter {
                 "nails",
                 "nails",
                 "nails",
+                "подарок",
+                "косметика",
+                "аксессуар",
         };
         return page(AccountPage.class);
     }
