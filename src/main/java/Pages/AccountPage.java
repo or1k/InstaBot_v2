@@ -23,6 +23,7 @@ public class AccountPage {
     private SelenideElement FirstComment = $(By.xpath("//ul[@class='XQXOT']//li[1]"));
     private int finishCount = 1000;
 
+
     private final String[] phraseOne = new String[]{
             "Какое замечательное фото, ",
             "Вау, ",
@@ -240,8 +241,6 @@ public class AccountPage {
                 }
                 sleep(randomNum);
 
-
-
                 /**
                  * Проверка на Магазин
                  */
@@ -250,11 +249,6 @@ public class AccountPage {
                     $(By.xpath("//a[text()='Далее']")).click();
                     continue;
                 }
-
-
-
-
-
 
                 /**
                  * Ставим Лайк + камент. если их нету

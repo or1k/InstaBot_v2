@@ -5,6 +5,7 @@ import Pages.AccountPage;
 import static com.codeborne.selenide.Selenide.page;
 
 public class Setter {
+
     public String[] keyWords;
 
 

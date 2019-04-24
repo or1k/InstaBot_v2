@@ -1,3 +1,5 @@
+package Test;
+
 import Pages.AccountPage;
 import Pages.LoginPage;
 
@@ -17,7 +19,7 @@ public class AddNewFollowers {
     }
 
 
-    @Test
+    @Test()
     public void Test() throws InterruptedException {
         LoginPage loginPage = open("https://www.instagram.com/?hl=ru", LoginPage.class);
         loginPage.loginPage();

@@ -1,5 +1,6 @@
 package Pages;
 
+import View.LoginFrame2;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
@@ -12,6 +13,7 @@ import java.util.Properties;
 import static com.codeborne.selenide.Selenide.*;
 
 public class LoginPage {
+
 
     public static String getPropByKey(String key) {
         Properties props = new Properties();
@@ -34,10 +36,13 @@ public class LoginPage {
 
 
     public AccountPage loginPage(){
+        LoginFrame2 loginFrame2 = new LoginFrame2();
         $(By.xpath("//*[contains(@href,'login')]")).click();
         $(By.xpath("//div[@class='yOZjD _80tAB']")).shouldNotBe(Condition.visible);
-        $(By.name("username")).val(getPropByKey("Username"));
-        $(By.name("password")).val(getPropByKey("Password"));
+//        $(By.name("username")).val(getPropByKey("Username"));
+//        $(By.name("password")).val(getPropByKey("Password"));
+        $(By.name("username")).val(String.valueOf(loginFrame2.userText.getText()));
+        $(By.name("password")).val(String.valueOf(loginFrame2.passwordText.getPassword()));
         $(By.xpath("//button/div")).click();
         return page(AccountPage.class);
     }
