@@ -3,6 +3,7 @@ package Test;
 import Pages.AccountPage;
 import Pages.LoginPage;
 
+import View.LoginFrame2;
 import com.codeborne.selenide.Configuration;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -26,8 +27,9 @@ public class AddNewFollowers {
         sleep(30000);
         AccountPage accountPage = new AccountPage();
         accountPage.closePopup();
-        open("https://www.instagram.com/explore/locations/749889026/dnipro/?hl=ru");
+        open(LoginFrame2.linkText.getText());
         accountPage.moreFollowersFromGeo();
 
     }
 }
+//"https://www.instagram.com/explore/locations/749889026/dnipro/?hl=ru"
