@@ -1,6 +1,6 @@
 package Pages;
 
-import Model.Setter;
+import Utils.Setter;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
@@ -46,7 +46,7 @@ public class AccountPage {
     };
 
     public AccountPage closePopup(){
-        if(PopUp.isEnabled()){
+        if(PopUp.isDisplayed()){
             PopUp.click();
         }else {
             System.out.println("nixuya");
